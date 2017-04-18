@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Department;
+use App\Employee;
 
 class DepartmentController extends Controller
 {
@@ -13,7 +15,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+        return Department::all();
     }
 
     /**
@@ -43,10 +45,18 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($dep)
     {
-        //
+        // return $dep->load('employees');
+        // dd(Department::where('dept_no', $dep)->first()->load('employees'));
+        return Department::where('dept_no', $dep)->first()->getEmployees(10,0);
     }
+
+    public function employees($offset = 0)
+    {
+        return Department::where('dept_no', $dep)->first()->load('employees')->skip($offset)->take(10);
+    }
+
 
     /**
      * Show the form for editing the specified resource.

@@ -13,13 +13,19 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::group(['prefix' => 'json'], function () {
 
-Route::get('/employees','EmployeeController@index');
+	Route::get('/employees','EmployeeController@index');
 
-Route::get('/employees/{emp}', 'EmployeeController@show');
+	Route::get('/employees/{emp}', 'EmployeeController@show');
 
+	Route::get('/departments', 'DepartmentController@index');
 
+	Route::get('/departments/{dep}', 'DepartmentController@show');
 
+	Route::get('/departments/{dep}/employees', 'DepartmentController@employees');
+
+});
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
