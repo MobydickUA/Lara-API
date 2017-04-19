@@ -8,85 +8,49 @@ use App\Employee;
 
 class DepartmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return Department::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($dep)
+    public function show(Department $dep)
     {
-        // return $dep->load('employees');
-        // dd(Department::where('dept_no', $dep)->first()->load('employees'));
-        return Department::where('dept_no', $dep)->first()->getEmployees(10,0);
+        return $dep->load('departmentHeads');
     }
 
-    public function employees($offset = 0)
+    public function employees(Department $dep, Request $request)
     {
-        return Department::where('dept_no', $dep)->first()->load('employees')->skip($offset)->take(10);
+        $offset = intval($request->input('offset'));
+        $number = intval($request->input('number'));
+        $dep->order = $request->input('order');
+        
+        $offset >= 0 ? $dep->offset = $offset : $dep->offset = 0;
+        $number >100 ? $dep->number = 100 : $dep->number = $number;
+        $number > 0  ? $dep->number = $number : $dep->number = 10;
+
+        return $dep->getEmployees;
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

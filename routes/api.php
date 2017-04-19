@@ -19,6 +19,14 @@ Route::group(['prefix' => 'json'], function () {
 
 	Route::get('/employees/{emp}', 'EmployeeController@show');
 
+	Route::get('/employees/{emp}/salaries', 'EmployeeController@salaries');
+
+	Route::get('/employees/{emp}/titles', 'EmployeeController@titles');
+
+	Route::get('/employees/{emp}/departments', 'EmployeeController@departments');
+
+	Route::get('/employees/{emp}/subordinates', 'EmployeeController@subordinates');
+
 	Route::get('/departments', 'DepartmentController@index');
 
 	Route::get('/departments/{dep}', 'DepartmentController@show');

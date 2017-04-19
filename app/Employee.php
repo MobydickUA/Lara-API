@@ -10,8 +10,8 @@ class Employee extends Model
 
     public function departments()
     {
-    	return $this->belongsToMany(Department::class, 'dept_emp', 
-    		'emp_no', 'dept_no');
+    	return $this->belongsToMany(Department::class, 'dept_emp', 'emp_no', 'dept_no')
+    	->withPivot('from_date', 'to_date');
     }
 
     public function salaries()
@@ -24,5 +24,9 @@ class Employee extends Model
     	return $this->hasMany(Title::class, 'emp_no')->orderBy('from_date');
     }
 
+    public function drivenDepartment()
+    {
+    	return $this->belongsToMany(Department::class, 'dept_manager', 'emp_no', 'dept_no');
+    }
 
 }

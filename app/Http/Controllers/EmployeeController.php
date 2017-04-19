@@ -34,8 +34,29 @@ class EmployeeController extends Controller
         $emp->load('departments');
         $emp->load('salaries');
         $emp->load('titles');
+        $emp->load('drivenDepartment');
 
         return $emp;
+    }
+
+    public function salaries(Employee $emp)
+    {
+        return $emp->salaries;
+    }
+
+    public function titles(Employee $emp)
+    {
+        return $emp->titles;
+    }
+
+    public function departments(Employee $emp)
+    {
+        return $emp->departments;
+    }
+
+    public function subordinates(Employee $emp)
+    {
+        return $emp->drivenDepartment;
     }
 
     public function edit($id)
@@ -43,24 +64,11 @@ class EmployeeController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
