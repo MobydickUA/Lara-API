@@ -16,12 +16,14 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'json'], function () {
 
 	Route::get('/employees','EmployeeController@index');
+	
+	Route::get('/employees/search', 'EmployeeController@search');
 
 	Route::get('/employees/{emp}', 'EmployeeController@show');
 
-	Route::get('/employees/{emp}/salaries', 'EmployeeController@salaries');
-
 	Route::get('/employees/{emp}/titles', 'EmployeeController@titles');
+
+	Route::get('/employees/{emp}/salaries', 'EmployeeController@salaries');
 
 	Route::get('/employees/{emp}/departments', 'EmployeeController@departments');
 

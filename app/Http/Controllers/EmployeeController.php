@@ -15,7 +15,8 @@ class EmployeeController extends Controller
 
         if(!is_int($offset))
             $offset = 0;
-        return Employee::orderBy('last_name')->orderBy('first_name')->skip($offset)->take($number)->get(['emp_no', 'first_name', 'last_name']);
+        return Employee::shortInfo($offset, $number)
+            ->get(['emp_no', 'first_name', 'last_name', 'gender']);
 
     }
 
@@ -31,12 +32,7 @@ class EmployeeController extends Controller
 
     public function show(Employee $emp)
     {
-        $emp->load('departments');
-        $emp->load('salaries');
-        $emp->load('titles');
-        $emp->load('drivenDepartment');
-
-        return $emp;
+        return $emp->load('departments', 'drivenDepartment' ,'salaries', 'titles');
     }
 
     public function salaries(Employee $emp)
@@ -57,6 +53,20 @@ class EmployeeController extends Controller
     public function subordinates(Employee $emp)
     {
         return $emp->drivenDepartment;
+    }
+
+    public function search(Request $request)
+    {
+        $last_name = $request->input('last_name');
+        $first_name = $request->input('first_name');
+        if($last_name)
+        {
+            if($first_name)
+                return Employee::firstName($first_name)->lastName($last_name)->search();
+            return Employee::lastName($last_name)->search();
+        }
+        if($first_name)
+            return Employee::firstName($first_name)->search();
     }
 
     public function edit($id)
